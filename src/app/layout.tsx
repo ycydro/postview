@@ -1,10 +1,11 @@
 import { Geist, Geist_Mono, Manrope } from "next/font/google"
 
+// @ts-ignore: Allow importing global CSS without type declarations
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils"
 
-const manrope = Manrope({subsets:['latin'],variable:'--font-sans'})
+const manrope = Manrope({ subsets: ["latin"], variable: "--font-sans" })
 
 const fontMono = Geist_Mono({
   subsets: ["latin"],
@@ -20,7 +21,12 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={cn("antialiased", fontMono.variable, "font-sans", manrope.variable)}
+      className={cn(
+        "antialiased",
+        fontMono.variable,
+        "font-sans",
+        manrope.variable
+      )}
     >
       <body>
         <ThemeProvider>{children}</ThemeProvider>
