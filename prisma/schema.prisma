@@ -12,6 +12,7 @@ datasource db {
   provider = "postgresql"
 }
 
+// BETTER AUTH
 model User {
   id            String    @id
   name          String
@@ -23,7 +24,16 @@ model User {
   sessions      Session[]
   accounts      Account[]
 
+  // POSTVIEW
+  username String? @db.VarChar(16)
+
+  participations ViewingParticipant[]
+  reviews      Review[]
+  viewings Viewing[]
+
   @@unique([email])
+  @@unique([username])
+  @@index([username])
   @@map("user")
 }
 
@@ -73,4 +83,96 @@ model Verification {
 
   @@index([identifier])
   @@map("verification")
+}
+
+// POSTVIEW
+model Movie {
+  id String @id
+  backdrop_path String
+  poster_path String
+  title String
+  original_title String?
+  overview String?
+
+  viewings Viewing[]
+  reviews Review[]
+
+  @@map("movie_cache")
+}
+
+model Review {
+  id String @id @default(cuid())
+
+  userId   String
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  movieId  String
+  movie    Movie  @relation(fields: [movieId], references: [id], onDelete: Cascade)
+
+  // for group viewing
+  viewingId String?
+  viewing   Viewing? @relation(fields: [viewingId], references: [id], onDelete: SetNull)
+
+  rating Int
+  comment String? @db.VarChar(200)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([movieId])
+  @@index([viewingId])
+  @@index([userId])
+
+  @@map("review")
+}
+
+model Viewing {
+  id String @id @default(cuid())
+
+  movieId String
+  movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade)
+
+  viewedAt DateTime? 
+
+  createdById String?
+  createdBy   User? @relation(fields: [createdById], references: [id], onDelete: SetNull)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  participants ViewingParticipant[]
+  reviews Review[]
+
+  @@map("viewing")
+}
+
+model ViewingParticipant {
+  viewingId String 
+  userId String
+
+  role      ViewingRole @default(MEMBER)
+  status    ViewingStatus @default(INVITED)
+  joinedAt  DateTime @default(now())
+
+  viewing Viewing @relation(fields: [viewingId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+
+  @@id([viewingId, userId])
+  @@unique([viewingId, userId])
+  @@index([userId])
+  @@index([viewingId])
+
+  @@map("viewing_participant")
+}
+
+enum ViewingRole {
+  OWNER
+  MEMBER
+}
+
+enum ViewingStatus {
+  INVITED
+  CONFIRMED
+  DECLINED
 }
