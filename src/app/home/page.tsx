@@ -1,20 +1,21 @@
-import { auth } from "@/lib/auth"
-import { db } from "@/lib/db"
-import { headers } from "next/headers"
+import { Button } from "@/components/ui/button"
+import { getUser } from "@/lib/auth/session"
 import { redirect } from "next/navigation"
+import signOutAction from "./actions"
 
 export default async function Page() {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  })
+  const user = await getUser()
 
-  if (!session) {
-    redirect("/sign-in")
+  if (!user) {
+    redirect("/auth/sign-in")
   }
 
   return (
     <div className="flex min-h-svh flex-col gap-2 p-6">
-      Hello {session.user.name}!
+      Hello {user.name}!
+      <form action={signOutAction}>
+        <Button size="lg">Sign out</Button>
+      </form>
     </div>
   )
 }

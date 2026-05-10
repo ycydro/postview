@@ -1,11 +1,13 @@
-import { Geist, Geist_Mono, Manrope } from "next/font/google"
+import { Geist_Mono, Plus_Jakarta_Sans } from "next/font/google"
 
 // @ts-ignore: Allow importing global CSS without type declarations
 import "./globals.css"
-import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@/lib/utils"
 
-const manrope = Manrope({ subsets: ["latin"], variable: "--font-sans" })
+const fontSans = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  variable: "--font-sans",
+})
 
 const fontMono = Geist_Mono({
   subsets: ["latin"],
@@ -21,16 +23,9 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={cn(
-        "antialiased",
-        fontMono.variable,
-        "font-sans",
-        manrope.variable
-      )}
+      className={cn("grain antialiased", fontMono.variable, fontSans.variable)}
     >
-      <body>
-        <ThemeProvider>{children}</ThemeProvider>
-      </body>
+      <body>{children}</body>
     </html>
   )
 }
