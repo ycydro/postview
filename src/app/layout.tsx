@@ -1,4 +1,8 @@
-import { Geist_Mono, Plus_Jakarta_Sans } from "next/font/google"
+import {
+  Geist_Mono,
+  Playfair_Display,
+  Plus_Jakarta_Sans,
+} from "next/font/google"
 
 // @ts-ignore: Allow importing global CSS without type declarations
 import "./globals.css"
@@ -14,6 +18,11 @@ const fontMono = Geist_Mono({
   variable: "--font-mono",
 })
 
+const fontSerif = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-serif",
+})
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -23,7 +32,12 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={cn("grain antialiased", fontMono.variable, fontSans.variable)}
+      className={cn(
+        "grain antialiased",
+        fontMono.variable,
+        fontSans.variable,
+        fontSerif.variable
+      )}
     >
       <body>{children}</body>
     </html>

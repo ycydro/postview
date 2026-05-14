@@ -1,14 +1,18 @@
-import Navbar from "@/components/ui/Navbar"
+import Navbar from "@/components/Navbar"
+import { getUser } from "@/lib/auth/session"
 
-export default function MainLayout({
+export default async function MainLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const user = await getUser()
   return (
     <>
-      <Navbar />
-      {children}
+      <Navbar user={user} />
+      <div className="mx-auto max-w-6xl min-w-0 space-y-2.5 overflow-x-hidden">
+        {children}
+      </div>
     </>
   )
 }
