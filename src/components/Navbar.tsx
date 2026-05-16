@@ -18,7 +18,7 @@ const Navbar = ({ user }: NavbarProps) => {
   }
 
   return (
-    <header className="sticky top-0 z-50 border-b bg-background/75 backdrop-blur">
+    <header className="sticky top-0 z-999 border-b bg-background/75 backdrop-blur">
       <nav className="mx-auto flex h-12 w-full items-center justify-between px-6">
         {/* Logo */}
         <Link href="/" className="group flex items-center gap-2">
