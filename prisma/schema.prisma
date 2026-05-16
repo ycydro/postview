@@ -94,6 +94,10 @@ model Movie {
   original_title String?
   overview String?
 
+  release_date DateTime
+  popularity Float
+  vote_average Float
+
   viewings Viewing[]
   reviews Review[]
 

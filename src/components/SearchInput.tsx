@@ -5,6 +5,7 @@ import { Button } from "./ui/button"
 
 type SearchInputProps = {
   searchTerm: string
+  placeholder?: string
   setSearchTerm: Dispatch<SetStateAction<string>>
   onSubmit: () => void
   loading: boolean
@@ -12,6 +13,7 @@ type SearchInputProps = {
 
 const SearchInput = ({
   searchTerm,
+  placeholder = "Search...",
   setSearchTerm,
   onSubmit,
   loading,
@@ -35,7 +37,7 @@ const SearchInput = ({
         <Input
           type="text"
           disabled={loading}
-          placeholder="Search..."
+          placeholder={placeholder}
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className="w-full rounded-md pr-3 pl-10"

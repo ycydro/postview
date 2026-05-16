@@ -2,7 +2,7 @@
 
 import { Movie } from "@/app/generated/prisma/client"
 import Image from "next/image"
-import { Plus, Star, Play, Info, MoreHorizontal, Eye } from "lucide-react"
+import { Plus, Info, MoreHorizontal } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 type MovieCardProps = {
@@ -45,14 +45,7 @@ const MovieCard = ({ movie, isOpen, onOpenChange }: MovieCardProps) => {
                 className="h-8 w-8 flex-1 rounded-full backdrop-blur-sm"
                 aria-label="Add to list"
               >
-                <Eye size={16} />
-              </Button>
-              <Button
-                size="icon"
-                className="h-8 w-8 flex-1 rounded-full backdrop-blur-sm"
-                aria-label="Add to favorites"
-              >
-                <Star size={16} />
+                <Plus size={16} />
               </Button>
               <Button
                 size="icon"
@@ -115,17 +108,10 @@ const MovieCard = ({ movie, isOpen, onOpenChange }: MovieCardProps) => {
                   className="gap-2 backdrop-blur-sm"
                   aria-label="Add to list"
                 >
-                  <Eye size={16} />
-                  Add to viewed
+                  <Plus size={16} />
+                  Add to list
                 </Button>
-                <Button
-                  size="sm"
-                  className="gap-2 backdrop-blur-sm"
-                  aria-label="Add to favorites"
-                >
-                  <Star size={16} />
-                  Add to favorites
-                </Button>
+
                 <Button
                   size="sm"
                   variant="secondary"
