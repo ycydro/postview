@@ -1,7 +1,8 @@
 "use client"
+import { getMovieImage } from "@/features/movies/lib/utils"
+import Image from "next/image"
 
 import { Movie } from "@/app/generated/prisma/client"
-import Image from "next/image"
 import { Plus, Info, MoreHorizontal } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
@@ -11,19 +12,13 @@ type MovieCardProps = {
   onOpenChange: () => void
 }
 
-const BASE_IMG_URL = "https://image.tmdb.org/t/p/w500"
-
 const MovieCard = ({ movie, isOpen, onOpenChange }: MovieCardProps) => {
-  const imageSource = movie.poster_path
-    ? `${BASE_IMG_URL}${movie.poster_path}`
-    : "/no-poster.png"
-
   return (
     <>
       {/* Desktop View - hidden on mobile */}
       <div className="group relative hidden overflow-hidden rounded-lg transition-all duration-300 ease-out hover:shadow-2xl md:block">
         <Image
-          src={imageSource}
+          src={getMovieImage(movie)}
           alt={movie.title}
           priority
           width={500}
@@ -65,7 +60,7 @@ const MovieCard = ({ movie, isOpen, onOpenChange }: MovieCardProps) => {
         onClick={onOpenChange}
       >
         <Image
-          src={imageSource}
+          src={getMovieImage(movie)}
           alt={movie.title}
           priority
           width={500}

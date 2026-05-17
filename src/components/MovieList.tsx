@@ -1,5 +1,5 @@
 "use client"
-
+import { getMovieImage } from "@/features/movies/lib/utils"
 import Image from "next/image"
 import { useEffect, useState } from "react"
 import { Movie } from "@/app/generated/prisma/client"
@@ -15,14 +15,11 @@ import {
 
 import { LucideSearch } from "lucide-react"
 import useDebounceText from "@/hooks/use-debounce-text"
-import { BaseUIEvent } from "@base-ui/react"
 import { useIsMobile } from "@/hooks/use-is-mobile"
 
 type MovieListProps = {
   initialMovies: Movie[] | null
 }
-
-const BASE_IMG_URL = "https://image.tmdb.org/t/p/w500"
 
 const MovieList = ({ initialMovies }: MovieListProps) => {
   const [movies, setMovies] = useState<Movie[] | null>(initialMovies)
@@ -133,35 +130,29 @@ const MovieList = ({ initialMovies }: MovieListProps) => {
               </div>
             )}
 
-            {suggestedMovies?.map((item) => {
-              const imageSource = item.poster_path
-                ? `${BASE_IMG_URL}${item.poster_path}`
-                : "/no-poster.png"
-
-              return (
-                <ComboboxItem
-                  key={item.id}
-                  value={item.title}
-                  className="rounded-none bg-inherit"
-                >
-                  <div className="flex w-full items-center gap-2">
-                    <Image
-                      width={40}
-                      height={70}
-                      className="h-fit"
-                      src={imageSource}
-                      alt={item.title}
-                    />
-                    <div className="ml-1">
-                      <p className="truncate">{item.title ?? "No title"}</p>
-                      <p className="text-xs text-muted-foreground">
-                        {new Date(item.release_date).getFullYear() ?? ""}
-                      </p>
-                    </div>
+            {suggestedMovies?.map((movie) => (
+              <ComboboxItem
+                key={movie.id}
+                value={movie.title}
+                className="rounded-none bg-inherit"
+              >
+                <div className="flex w-full items-center gap-2">
+                  <Image
+                    width={40}
+                    height={70}
+                    className="h-fit"
+                    src={getMovieImage(movie)}
+                    alt={movie.title}
+                  />
+                  <div className="ml-1">
+                    <p className="truncate">{movie.title ?? "No title"}</p>
+                    <p className="text-xs text-muted-foreground">
+                      {new Date(movie.release_date).getFullYear() ?? ""}
+                    </p>
                   </div>
-                </ComboboxItem>
-              )
-            })}
+                </div>
+              </ComboboxItem>
+            ))}
           </ComboboxList>
         </ComboboxContent>
       </Combobox>
