@@ -11,6 +11,8 @@ export default async function Page() {
 
   if (!user) {
     redirect("/auth/sign-in")
+  } else if (!user.isOnboarded) {
+    redirect("/onboarding")
   }
 
   const { movies: initialMovies } = await fetcher<any>("/api/movies", {

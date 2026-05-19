@@ -26,6 +26,7 @@ model User {
 
   // POSTVIEW
   username String? @db.VarChar(16)
+  isOnboarded Boolean @default(false)
 
   participations ViewingParticipant[]
   reviews      Review[]
